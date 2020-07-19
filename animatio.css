@@ -1,0 +1,43 @@
+﻿body{
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+}
+.oliver{
+
+background-color: yellow;
+height: 100px;
+width: 100vw;
+
+}
+
+.pelota{
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	/*transition-property: width, height;
+	transition-duration: 1s;
+	transition-delay: 0.5s;
+	transition-timing-function: ease;*/
+	position: absolute;
+ transition-duration: 2s;
+ color: white;
+ font-size: 25px;
+ text-align: center;
+ line-height: 100px;
+}
+.pelota.a{
+	background-color: blue;
+	left: 0;
+}
+.pelota.b{
+	background-color: red;
+	right: 0;
+}
+.oliver:hover .pelota.a {
+	left: calc(50% - 100px);
+}
+.oliver:hover .pelota.b {
+	right: calc(50% - 100px);
+}
