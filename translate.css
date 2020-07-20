@@ -1,0 +1,54 @@
+﻿body{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	color: white;
+	font-family: Arial;
+	flex-direction: column;
+	width: 100vw;
+	perspective: 200px;
+	perspective-origin: center;
+}
+.container{
+	border: 2px solid yellow;
+	display: flex;
+}
+.cuadrado{
+	width: 100px;
+	height: 100px;
+	margin: 20px;
+	color: white;
+	background-color: black;
+	text-align: center;
+	line-height: 100px;
+	font-size: 40px;
+	transform: translate3d(0px, 0px, 0px);
+	transition-duration: 0.5s;
+}
+.cuadrado:hover ~ .cuadrado{
+	transform: translate3d(100px, 0px, 0px);	
+}
+
+	
+
+/*}
+.cuadrado.a:hover{
+	transform: translate3d(0px, 0px, 100px);
+
+}
+.cuadrado.a:hover{
+	transform: translate3d(0px, 0px, 100px);
+
+}
+.cuadrado.a:hover{
+	transform: translate3d(0px, 0px, 100px);
+
+}
+.cuadrado.a:hover{
+	transform: translate3d(0px, 0px, 100px);
+}
+.cuadrado.a:hover{
+	transform: translate3d(0px, 0px, 100px);
+
+}*/
