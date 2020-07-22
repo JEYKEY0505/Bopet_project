@@ -1,0 +1,94 @@
+﻿body{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background-color: yellow;
+	font-family: Arial;
+	flex-direction: column;
+    width: 100vw;
+    margin: 0;
+	
+}
+.container{
+	background-color: yellow;
+    display: flex;
+    width: 100vw;
+    position: relative;
+
+}
+.cuadrado{
+	width: 100px;
+    height: 100px;
+    position: absolute;
+	
+}
+.cuadrado.a{
+    border-radius: 50%;
+    left: 0;
+    background-color: red;
+    animation-name: flash1;
+    animation-duration: 0.5s;
+    animation-delay: 0.5s;
+   
+    /* animation-iteration-count: infinite; */
+}
+.cuadrado.b{
+    left: calc(50% - 50px);
+    background-color: white;
+    transform: skew(0deg, 0deg);
+    animation-name: flash2;
+    animation-duration: 0.5s;
+    animation-delay: 0.5s;
+    opacity:0;
+    /* animation-iteration-count: infinite; */
+    
+}
+.cuadrado.c{
+    border-radius: 50%;
+    right: 0;
+    background-color: blue;
+    animation-name: flash3;
+    animation-duration: 0.5s;
+    animation-delay: 0.5s;
+    
+   /* animation-iteration-count: infinite; */
+}
+
+@keyframes flash1 {
+    0% {
+    left: 10%;
+    }
+    50% {
+     left: 50%;
+    }
+    100%{
+        left: 90%;
+    }
+}
+@keyframes flash2 {
+    0% {
+    
+    }
+    50% {
+     transform: skew(35deg, 35deg);
+     opacity: 1;
+    }
+    52%{
+        transform: skew(45deg, 45deg);
+    }
+    100%{
+
+    }
+}
+@keyframes flash3 {
+    0% {
+     right: 10%;
+    }
+    50% {
+     right: 50%;
+    }
+    100%{
+      right: 90%;
+    }
+}

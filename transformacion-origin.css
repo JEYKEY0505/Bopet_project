@@ -22,10 +22,12 @@
 	text-align: center;
 	line-height: 100px;
 	font-size: 40px;
-	transform: skew(0deg);
-	transition-duration: 0.5s;
+	transform: rotateY(0deg);
+    transition-duration: 0.5s;
+    transform-origin: right;
 }
 
 .container:hover .cuadrado{
-transform: skew(45deg, 45deg)
+    
+    transform: rotateY(90deg);
 }
