@@ -3,7 +3,7 @@
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
-	background-color: black;
+	background-color: white;
 	font-family: Arial;
 	flex-direction: column;
     width: 100vw;
@@ -13,34 +13,54 @@
 .container{
 	
     display: flex;
-    width: 100vw;
-    height: 150px;
+    width: 60vw;
+    height: 100%;
     position: relative;
-    border: 2px solid white;
+    border: 2px solid skyblue;
 
 }
 .cuadrado{
 	width: 50px;
     height: 50px;
-    position: relative;
+    position: absolute;
     
 	
 }
 .cuadrado.a{
  border-radius: 50%;
- background-color: lightgray;
- animation-name: arriba, abajo;
+ color: rgba(255, 0, 0);
+ background-color:rgba(255,0,0, 0.6);
+ box-shadow: 0 0 10px 10px;
+ /* animation-name: arriba, abajo;
  animation-duration: 2s, 400ms;
  animation-timing-function: linear;
  animation-iteration-count: infinite;
+ animation-direction: alternate; */
+ animation-name: arriba, abajo;
+ animation-duration: 1s, 2s;
+ animation-timing-function: ease-out, linear;
+ animation-iteration-count: infinite;
  animation-direction: alternate;
+}
+.cuadrado.b{
+    border-radius: 50px;
+    color: rgba(255, 0, 240);
+    background: rgba(255, 0, 240, 0.6);
+    box-shadow: 0 0 10px 10px;
+    right: 0px;
+    bottom: 20px;
+    animation-name: derecha, caida;
+    animation-duration: 1s, 2s;
+    animation-timing-function: ease-out, linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
 @keyframes arriba {
     0%{
-        left:0
+        left:0;
     }
     100%{
-        left: calc(100% - 50px)
+        left: calc(50% - 50px);
     }
 }
 @keyframes abajo {
@@ -48,8 +68,23 @@
         transform: translateY(0);
     }
     100%{
-        transform: translateY(100px) scale(1, 0.8);
+        transform: translateY(600px) ;
     }
 }
-
+@keyframes caida {
+    0%{
+        transform: translateY(0);
+    }
+    100%{
+        transform: translateY(-600px);
+    }
+}
+@keyframes derecha {
+    0%{
+        right:0;
+    }
+    100%{
+        right: calc(50% - 50px);
+    }
+}
 
