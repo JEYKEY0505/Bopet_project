@@ -1,0 +1,71 @@
+body{
+    width: 100vw;
+    height: 100vh;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    /* background-image: linear-gradient(to right bottom,#FF00CC ,#33FFFF); */
+    background-image: url("nuevo_fondo.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.activar{
+    width: 400px;
+    height: 100px;
+    background: transparent;
+    color: white;
+    font-size: 2.5rem;
+    position: fixed;
+    top: calc(75% - 50px);
+    left: calc(50% - 200px);
+    border: none;
+    padding: 0;
+    border-image: none;
+    outline: none;
+    opacity: 1;
+    animation-name: parpadear;
+    animation-duration: 300ms;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+.container{
+    width: 550px;
+    height: 70%;
+    background-color: transparent;
+    display:grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    grid-template-rows: 20% 20% 20% 20% 20%;
+}
+.caja{
+    background-color: white;
+    opacity: 0.6;
+    border: black solid 1px;
+    margin-right: 1px;
+    margin-top: 1px;
+}
+.caja.light{
+
+    opacity: 0.9;
+}
+.caja.primero{
+    background-color: #FF00CC;
+    opacity: 1;
+}
+.caja.segundo{
+    background-color: #FFC300;
+    opacity: 1;
+}
+.hide{
+    display: none;
+}
+@keyframes parpadear{
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
