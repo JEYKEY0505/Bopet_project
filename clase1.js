@@ -4,19 +4,16 @@ const elementos= construir()
 const primero= construir()
 const segundo= construir()
 function construir(){
-    let elementos= {}
+    let elementos= []
     for(let i=0; i<5; i++){
         let fila=[]
         for(let j=0; j<5; j++){
             const caja=document.getElementById(`box${i+1}${j+1}`)
-            fila.push(caja)
+            elementos.push(caja)
         }
-        elementos[i]=fila
     }
     return elementos
 }
-
-
 
 class Juego{
     constructor(){
@@ -28,11 +25,14 @@ class Juego{
         this.toggle()
         this.ronda1= 2
         this.ronda2= 2
-        this.elegirCaja1= this.elegirCaja1.bind(this)
-        this.elegirCaja2= this.elegirCaja2.bind(this)
-        this.primero= primero
-        this.segundo=segundo
+        this.elegirCaja= this.elegirCaja.bind(this)
+        // this.elegirCaja2= this.elegirCaja2.bind(this)
+        this.mundo= elementos
         this.level=0
+        this.gamer=1
+        this.primero=0
+        this.segundo=0
+        this.blancos=0
         this.indices=[]
         this.secuencia=[]
         this.limpiar()
@@ -47,10 +47,10 @@ class Juego{
         }
     }
     limpiar(){
-        for(let i=0; i<5; i++){
-            for(let j=0; j<5; j++){
-                elementos[i][j].classList.remove("primero", "segundo")
-            }
+        for(let i=0; i<25; i++){
+            
+            elementos[i].classList.remove("primero", "segundo")
+            
         }
     }
     generarSecuencia(grupo,ronda){
@@ -58,43 +58,76 @@ class Juego{
         let contador=0
         while(contador<ronda){
             let valor=0
-            for(let i=0; i<5; i++){
-                for(let j=0; j<5; j++){
-                    valor= Math.floor(Math.random()*4)
-                    if(valor==3 && grupo[i][j]!=undefined){
-                        this.secuencia.push(grupo[i][j])
-                        this.indices[contador]=[i,j]
+            for(let i=0; i<25; i++){            
+                valor= Math.floor(Math.random()*4)
+                if(this.pertenece(grupo[i])==2 && this.gamer==1){
+                    if(valor==3){
+                        this.secuencia.push(grupo[i])
+                        this.indices[contador]= i
                         contador+=1
                     }
-                    if(contador==ronda){
-                        break
+                }
+                if(this.pertenece(grupo[i])==1 && this.gamer==2){
+                    if(valor==3){
+                        this.secuencia.push(grupo[i])
+                        this.indices[contador]= i
+                        contador+=1                   
                     }
                 }
+                if(this.pertenece(grupo[i])==0){
+                    if(valor==3){
+                        this.secuencia.push(grupo[i])
+                        this.indices[contador]= i
+                        contador+=1
+                    }
+                }
+
                 if(contador==ronda){
                     break
                 }
             }
         }
+    }
+    pertenece(caja){
+        if(caja.classList.contains('primero')){
+            return 1
+        } else if(caja.classList.contains('segundo')){
+           return 2
+        } else{
+            return 0
+        }
         
+    }
+    terminar(){
+        this.blancos=0
+        this.primero=0
+        this.segundo=0
+        for(let i=0; i<25; i++){
+            let aumento=this.pertenece(this.mundo[i])
+            if(aumento==1){
+                this.primero+=1
+            } else if(aumento==2){
+                this.segundo+=1
+            } else{
+                this.blancos+=1
+            }
+        }
     }
     siguienteRonda(){
         swal(`Ronda ${this.ronda1}`, "Turno del Jugador 1")
         .then(()=>{
-            this.generarSecuencia(this.primero, this.ronda1)
+            this.generarSecuencia(this.mundo, this.ronda1)
             console.log(this.secuencia)
             this.iluminarSecuencia(this.secuencia, this.ronda1)
-            this.agregarEventosClick1(this.primero)
+            this.agregarEventosClick(this.mundo)
         })
-        
-        
     }
     siguienteRonda2(){
         swal(`Ronda ${this.ronda2}`, "Turno del Jugador 2")
         .then(()=>{
-            this.generarSecuencia(this.segundo, this.ronda2)
-            console.log(this.secuencia)
+            this.generarSecuencia(this.mundo, this.ronda2)
             this.iluminarSecuencia(this.secuencia, this.ronda2)
-            this.agregarEventosClick2(this.segundo)
+            this.agregarEventosClick(this.mundo)
         })
 
     }
@@ -107,113 +140,89 @@ class Juego{
         secuencia.classList.add('light')  // Creo que es algo diferente en python
         setTimeout(()=>secuencia.classList.remove('light'),400)
     }
-    agregarEventosClick1(grupo){
-        for(let i=0; i<5; i++){
-            for(let j=0; j<5; j++){
-                elementos[i][j].addEventListener('click', this.elegirCaja1)
-            }
-        }
-    }
-    eliminarEventosClick1(grupo){
-        for(let i=0; i<5; i++){
-            for(let j=0; j<5; j++){
-                elementos[i][j].removeEventListener('click', this.elegirCaja1)
-            }
-        }
-    }
-    elegirCaja1(elemento){
-        let caja=elemento.target
-        console.log(caja)
-        this.iluminarCaja(caja)
-
-        if(caja===this.secuencia[this.level]){
-            this.level+=1
-            if(this.level==this.secuencia.length){
-                let index= this.indices.sort()
-                for(let i=0; i<this.level; i++){
-                    this.secuencia[i].classList.remove('segundo')
-                    this.secuencia[i].classList.add('primero')
-                    let ele=index.pop()
-                    let fila=ele[0]
-                    let columna= ele[1]
-                    
-                    this.primero[fila].splice(columna,1)
-                }
-                if(this.primero.length + this.segundo.length ==25 && this.primero.length>this.secuencia.length){
-                    swal("¡¡TENEMOS UN GANADOR!!", "WINNER: JUGADOR 1" )
-                    .then(()=>this.Inicializar())
-                }
-                if(this.primero.length + this.segundo.length ==25 && this.primero.length<this.secuencia.length){
-                    swal("¡¡TENEMOS UN GANADOR!!", "WINNER: JUGADOR 2" )
-                    .then(()=>this.Inicializar())
-                }
-                this.level=0
-                this.ronda1+=1
-                this.eliminarEventosClick1(this.primero)
-                this.siguienteRonda2()
-            }
-        }else{
-            this.level=0
-            this.eliminarEventosClick1(this.primero)
-            swal("Fallaste", "Siguiente Jugador", "error")
-            .then(()=>this.siguienteRonda2())
-        }
-        
-    }
-
-    agregarEventosClick2(grupo){
-        for(let i=0; i<5; i++){
-            for(let j=0; j<5; j++){
-                elementos[i][j].addEventListener('click', this.elegirCaja2)
-            }
-        }
-    }
-
-    eliminarEventosClick2(grupo){
-        for(let i=0; i<5; i++){
-            for(let j=0; j<5; j++){
-                elementos[i][j].removeEventListener('click', this.elegirCaja2)
-            }
-        }
-    }
-    elegirCaja2(elemento){
-        let caja=elemento.target
-        this.iluminarCaja(caja)
-
-        if(caja===this.secuencia[this.level]){
-            this.level+=1
-            if(this.level==this.secuencia.length){
-                let index= this.indices.sort()
-                for(let i=0; i<this.level; i++){
-                    this.secuencia[i].classList.remove('primero')
-                    this.secuencia[i].classList.add('segundo')
-                    let ele=index.pop()
-                    let fila=ele[0]
-                    let columna= ele[1]
-                    this.segundo[fila].splice(columna,1)
-                }
-                if(this.primero.length + this.segundo.length ==25 && this.primero.length>this.secuencia.length){
-                    swal("¡¡TENEMOS UN GANADOR!!", "WINNER: JUGADOR 1" )
-                    .then(()=>this.Inicializar())
-                }
-                if(this.primero.length + this.segundo.length ==25 && this.primero.length<this.secuencia.length){
-                    swal("¡¡TENEMOS UN GANADOR!!", "WINNER: JUGADOR 2" )
-                    .then(()=>this.Inicializar())
-                }
-                this.level=0
-                this.ronda2+=1
-                this.eliminarEventosClick2(this.segundo)
-                this.siguienteRonda()
-            }
-        }else{
-            this.level=0
-            this.eliminarEventosClick2(this.segundo)
-            swal("Fallaste", "Siguiente Jugador", "error")
-            .then(()=>this.siguienteRonda())
+    agregarEventosClick(grupo){
+        for(let i=0; i<25; i++){
+            elementos[i].addEventListener('click', this.elegirCaja)
             
         }
     }
+    eliminarEventosClick(grupo){
+        for(let i=0; i<25; i++){
+            elementos[i].removeEventListener('click', this.elegirCaja)
+        }
+    }
+    elegirCaja(elemento){
+        let caja=elemento.target
+        console.log(caja)
+        this.iluminarCaja(caja)
+        let add=0
+
+        if(caja===this.secuencia[this.level]){
+            this.level+=1
+            if(this.level==this.secuencia.length){
+                
+                if(this.gamer==1){
+                    for(let i=0; i<this.level; i++){
+                        this.secuencia[i].classList.remove('segundo')
+                        this.secuencia[i].classList.add('primero') 
+                    }
+                    add=1
+
+                }
+                if(this.gamer==2){
+                    for(let i=0; i<this.level; i++){
+                        this.secuencia[i].classList.remove('primero')
+                        this.secuencia[i].classList.add('segundo') 
+                    }
+                    add=-1
+                }
+                
+                this.terminar()
+                this.eliminarEventosClick(this.mundo)
+                if(this.blancos==0 && this.primero>this.segundo){  
+                    swal("¡¡TENEMOS UN GANADOR!!", "WINNER: JUGADOR 1")
+                    .then(()=>this.Inicializar())
+                } else if(this.blancos==0 && this.primero<this.segundo){
+                    swal("¡¡TENEMOS UN GANADOR!!", "WINNER: JUGADOR 2" )
+                    .then(()=>this.Inicializar())
+                }else{
+                    this.level=0
+                    this.gamer=this.gamer+add
+                    if(this.gamer==2){
+                        this.ronda1+=1
+                        this.siguienteRonda2()
+                    }
+                    if(this.gamer==1){
+                        this.ronda2+=1
+                        this.siguienteRonda()
+                    } 
+                }
+                
+            }
+        }else{
+            if(this.gamer==1){
+                add=1
+            }
+            if(this.gamer==2){
+                add=-1
+            }
+            this.gamer=this.gamer+add
+            this.level=0
+            this.eliminarEventosClick(this.mundo)
+            swal("Fallaste", "Siguiente Jugador", "error")
+            .then(()=>{
+                if(this.gamer==2){
+                    this.siguienteRonda2()
+                }
+                if(this.gamer==1){
+                    this.siguienteRonda()
+                }
+            })
+        }
+        
+    }
 }
+
 
 function empezarJuego(){
     window.juego= new Juego()
