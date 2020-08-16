@@ -133,12 +133,12 @@ class Juego{
     }
     iluminarSecuencia(secuencia,ronda){
         for(let i=0; i<ronda;i++){
-            setTimeout(()=>this.iluminarCaja(secuencia[i]),1000*(i+1))
+            setTimeout(()=>this.iluminarCaja(secuencia[i]),600*(i+1))
         }
     }
     iluminarCaja(secuencia){
         secuencia.classList.add('light')  // Creo que es algo diferente en python
-        setTimeout(()=>secuencia.classList.remove('light'),400)
+        setTimeout(()=>secuencia.classList.remove('light'),300)
     }
     agregarEventosClick(grupo){
         for(let i=0; i<25; i++){
