@@ -58,6 +58,14 @@ body{
     background-color: #FFC300;
     opacity: 1;
 }
+.caja.primero.light{
+    background-color: #FF00CC;
+    opacity: 0.5;
+}
+.caja.segundo.light{
+    background-color: #FFC300;
+    opacity: 0.5;
+}
 .hide{
     display: none;
 }
